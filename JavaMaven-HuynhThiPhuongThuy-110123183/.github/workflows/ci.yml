@@ -1,0 +1,31 @@
+name: Java Maven CI
+
+# Kích hoạt quy trình tự động chạy mỗi khi có thao tác Push code lên nhánh main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Bước 1: Tải mã nguồn từ kho lưu trữ về máy ảo GitHub
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Bước 2: Cài đặt môi trường Java JDK 17 cho máy ảo
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    # Bước 3: Di chuyển vào thư mục dự án và chạy kích hoạt các hàm Unit Test
+    - name: Build and Run Tests with Maven
+      run: |
+        cd JavaMaven-HuynhThiPhuongThuy-110123183
+        mvn clean test
